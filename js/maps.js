@@ -18,12 +18,7 @@
 
   var locations = {};
 
-  function getLocation(str, callback) {
-
-    if (locations[str]) {
-      callback(locations[str]);
-      return;
-    }
+  ext.getloc = function(str, coords) {
 
     $.ajax({
       type: "GET",
@@ -44,19 +39,6 @@
         callback(null);
       }
     });
-  }
-
-  ext.getloc = function(str, coords) {
-
-    getLocation(str, function(loc) {
-      //var lat = loc.coords[1];
-	  //var lon = loc.coords[0];
-    });
-
-    if (coords === "longitude")
-      return locations[str].coords[0].toString();
-    else if (coords === "latitude")
-      return locations[str].coords[1].toString();
   };
 
   ext._getStatus = function() {
