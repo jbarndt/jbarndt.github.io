@@ -54,9 +54,9 @@
     });
 
     if (coords === "longitude")
-      return locations[str].coords[0];
+      return locations[str].coords[0].toString();
     else if (coords === "latitude")
-      return locations[str].coords[1];
+      return locations[str].coords[1].toString();
   };
 
   ext._getStatus = function() {
