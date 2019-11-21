@@ -49,14 +49,14 @@
   ext.getloc = function(str, coords) {
 
     getLocation(str, function(loc) {
-      var lat = loc.coords[1];
-	  var lon = loc.coords[0];
+      //var lat = loc.coords[1];
+	  //var lon = loc.coords[0];
     });
 
     if (coords === "longitude")
-      return lon;
+      return locations[str].coords[0];
     else if (coords === "latitude")
-      return lat;
+      return locations[str].coords[1];
   };
 
   ext._getStatus = function() {
