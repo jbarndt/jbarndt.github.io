@@ -75,9 +75,6 @@
 
   var descriptor = {
     blocks: [
-      //['h', 'when ISS passes over %s', 'whenISSPasses', 'Boston, MA'],
-      //['R', 'distance from %s in %m.measurements', 'distanceFrom', 'Boston, MA', 'kilometers'],
-      //['r', 'current ISS %m.loc', 'getISSInfo', 'longitude']
 
 	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude'],
 	  ['R', 'population of %s', 'getpop', 'Boston, MA']
