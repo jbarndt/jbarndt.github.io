@@ -17,6 +17,10 @@
   var locations = {};
   var populations = {};
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   ext.getloc = function(str, unit, callback) {
 
     $.ajax({
@@ -65,10 +69,6 @@
       }
     });
   };
-
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
   ext._getStatus = function() {
     return { status:2, msg:'Ready' };
