@@ -18,7 +18,7 @@
 
   var locations = {};
 
-  ext.getloc = function(str, callback) {
+  ext.getloc = function(str, unit, callback) {
 
     $.ajax({
       type: "GET",
@@ -33,13 +33,17 @@
         locations[str] = {};
         locations[str].coords = [data[0].lon, data[0].lat];
         locations[str].overhead = false;
-        callback(locations[str]);
+
+        if (unit === "longitude")
+	      callback(locations[str].coords[0]);
+	    else if (unit === "latitude")
+		  callback(locations[str].coords[1]);
+        //callback(locations[str]);
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
       }
     });
-
 
   };
 
