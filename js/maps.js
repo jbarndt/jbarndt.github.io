@@ -15,6 +15,7 @@
 (function(ext) {
 
   var locations = {};
+  var populations = {};
 
   ext.getloc = function(str, unit, callback) {
 
@@ -48,13 +49,12 @@
     $.ajax({
       type: "GET",
       url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
-      dataType: "jsonp",
-      data: {
-        format: "json"
-      },
-      jsonp: "json_callback",
+      dataType: "json",
       success: function(data) {
-	    callback(numberWithCommas(data[0].extratags.population));
+		  populations[str] = {};
+          populations[str].pop = data[0].extratags.population;
+          populations[str].overhead = false;
+	    callback(numberWithCommas(populations[str].pop);
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
