@@ -14,8 +14,6 @@
  */
 (function(ext) {
 
-  var EARTH_RADIUS = 6371000; //meters
-
   var locations = {};
 
   ext.getloc = function(str, unit, callback) {
@@ -38,13 +36,32 @@
 	      callback(locations[str].coords[0]);
 	    else if (unit === "latitude")
 		  callback(locations[str].coords[1]);
-        //callback(locations[str]);
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
       }
     });
+  };
 
+  ext.getpop = function(str, callback) {
+
+    $.ajax({
+      type: "GET",
+      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      dataType: "jsonp",
+      data: {
+        format: "json"
+      },
+      jsonp: "json_callback",
+      success: function(data) {
+		numWithCommas = data[0].extratags.population.toString();
+		numWithCommas.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    callback(numWithCommas);
+      },
+      error: function(jqxhr, textStatus, error) {
+        callback(null);
+      }
+    });
   };
 
   ext._getStatus = function() {
@@ -60,11 +77,11 @@
       //['R', 'distance from %s in %m.measurements', 'distanceFrom', 'Boston, MA', 'kilometers'],
       //['r', 'current ISS %m.loc', 'getISSInfo', 'longitude']
 
-	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude']
+	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude'],
+	  ['R', 'population of %s', 'getpop', 'Boston, MA']
     ],
     menus: {
       loc: ['longitude', 'latitude'],
-      //measurements: ['kilometers', 'miles']
     },
     url: 'https://jbarndt.github.io/js/maps.js'
   };
