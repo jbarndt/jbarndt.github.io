@@ -24,8 +24,13 @@
 
     $.ajax({
       type: "GET",
-      url: "http://nominatim.openstreetmap.org/searchsearch.php?q=" + str,
-      dataType: "json",
+      url: "http://nominatim.openstreetmap.org/search/",
+      dataType: "jsonp",
+      data: {
+        format: "json",
+        q: str
+      },
+      jsonp: "json_callback",
       success: function(data) {
         locations[str] = {};
         locations[str].coords = [data[0].lon, data[0].lat];
@@ -45,19 +50,19 @@
   ext.getpop = function(str, callback) {
 
     $.ajax({
-  	type: "GET",
-  	url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
-  	dataType: "jsonp",
-  	data: {
-  	  format: "json"
-  	},
-  	jsonp: "json_callback",
-  	success: function(data) {
-  	  console.log(numberWithCommas(data[0].extratags.population));
-  	},
-  	error: function(jqxhr, textStatus, error) {
-  	  callback(null);
-  	}
+      type: "GET",
+      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      dataType: "jsonp",
+      data: {
+        format: "json"
+      },
+      jsonp: "json_callback",
+      success: function(data) {
+	    callback(numberWithCommas(data[0].extratags.population));
+      },
+      error: function(jqxhr, textStatus, error) {
+        callback(null);
+      }
     });
   };
 
@@ -70,6 +75,7 @@
 
   var descriptor = {
     blocks: [
+      
 
 	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude'],
 	  ['R', 'population of %s', 'getpop', 'Boston, MA']
