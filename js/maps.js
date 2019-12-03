@@ -16,6 +16,10 @@
 
   var locations = {};
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   ext.getloc = function(str, unit, callback) {
 
     $.ajax({
@@ -54,9 +58,7 @@
       },
       jsonp: "json_callback",
       success: function(data) {
-		numWithCommas = data[0].extratags.population.toString();
-		numWithCommas.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	    callback(numWithCommas);
+	    callback(numberWithCommas(data[0].extratags.population));
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
