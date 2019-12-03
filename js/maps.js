@@ -26,7 +26,7 @@
       dataType: "jsonp",
       data: {
         format: "json",
-
+        q: str
       },
       jsonp: "json_callback",
       success: function(data) {
