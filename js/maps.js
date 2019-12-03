@@ -49,7 +49,11 @@
     $.ajax({
       type: "GET",
       url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
-      dataType: "json",
+      dataType: "jsonp",
+      data: {
+        format: "json"
+      },
+      jsonp: "json_callback",
       success: function(data) {
 		  populations[str] = {};
           populations[str].pop = data[0].extratags.population;
