@@ -14,33 +14,9 @@
  */
 (function(ext) {
 
-  var locations = {};
-
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-
-  ext.getloc = function(str, unit, callback) {
-
-    $.ajax({
-      type: "GET",
-      url: "http://nominatim.openstreetmap.org/searchsearch.php?q=" + str,
-      dataType: "json",
-      success: function(data) {
-        locations[str] = {};
-        locations[str].coords = [data[0].lon, data[0].lat];
-        locations[str].overhead = false;
-
-        if (unit === "longitude")
-	      callback(locations[str].coords[0]);
-	    else if (unit === "latitude")
-		  callback(locations[str].coords[1]);
-      },
-      error: function(jqxhr, textStatus, error) {
-        callback(null);
-      }
-    });
-  };
 
   ext.getpop = function(str, callback) {
 
@@ -71,15 +47,12 @@
   var descriptor = {
     blocks: [
 
-	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude'],
 	  ['R', 'population of %s', 'getpop', 'Boston, MA']
     ],
-    menus: {
-      loc: ['longitude', 'latitude'],
-    },
-    url: 'https://jbarndt.github.io/js/maps.js'
+
+    url: 'https://jbarndt.github.io/js/pop.js'
   };
 
-  ScratchExtensions.register('Maps', descriptor, ext);
+  ScratchExtensions.register('Population', descriptor, ext);
 
 })({});
