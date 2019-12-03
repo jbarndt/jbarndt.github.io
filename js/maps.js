@@ -54,8 +54,7 @@
       },
       jsonp: "json_callback",
       success: function(data) {
-		pop = numberWithCommas(data[0].extratags.population);
-	    callback(pop);
+	    callback(numberWithCommas(data[0].extratags.population));
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
