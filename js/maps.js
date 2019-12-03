@@ -24,13 +24,8 @@
 
     $.ajax({
       type: "GET",
-      url: "http://nominatim.openstreetmap.org/search/",
-      dataType: "jsonp",
-      data: {
-        format: "json",
-        q: str
-      },
-      jsonp: "json_callback",
+      url: "http://nominatim.openstreetmap.org/searchsearch.php?q=" + str,
+      dataType: "json",
       success: function(data) {
         locations[str] = {};
         locations[str].coords = [data[0].lon, data[0].lat];
