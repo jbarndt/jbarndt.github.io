@@ -54,15 +54,18 @@
       },
       jsonp: "json_callback",
       success: function(data) {
-		numWithCommas = data[0].extratags.population.toString();
-		numWithCommas.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	    callback(numWithCommas);
+		pop = numberWithCommas(data[0].extratags.population);
+	    callback(pop);
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
       }
     });
   };
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
   ext._getStatus = function() {
     return { status:2, msg:'Ready' };
@@ -73,10 +76,6 @@
 
   var descriptor = {
     blocks: [
-      //['h', 'when ISS passes over %s', 'whenISSPasses', 'Boston, MA'],
-      //['R', 'distance from %s in %m.measurements', 'distanceFrom', 'Boston, MA', 'kilometers'],
-      //['r', 'current ISS %m.loc', 'getISSInfo', 'longitude']
-
 	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude'],
 	  ['R', 'population of %s', 'getpop', 'Boston, MA']
     ],
