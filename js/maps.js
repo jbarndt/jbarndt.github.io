@@ -18,7 +18,7 @@
 
   var locations = {};
 
-  ext.getloc = function(str, coords) {
+  ext.getloc = function(str, callback) {
 
     $.ajax({
       type: "GET",
@@ -26,7 +26,7 @@
       dataType: "jsonp",
       data: {
         format: "json",
-        q: str
+
       },
       jsonp: "json_callback",
       success: function(data) {
@@ -39,6 +39,8 @@
         callback(null);
       }
     });
+
+
   };
 
   ext._getStatus = function() {
