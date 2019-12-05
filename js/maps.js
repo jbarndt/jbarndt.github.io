@@ -58,7 +58,7 @@
 		  populations[str] = {};
           populations[str].pop = data[0].extratags.population;
           populations[str].overhead = false;
-	    callback(numberWithCommas(populations[str].pop);
+	    callback(numberWithCommas(populations[str].pop));
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
