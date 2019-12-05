@@ -46,6 +46,10 @@
 
   ext.getpop = function(str, callback) {
 
+	if (populations[str] != null){
+		callback(numberWithCommas(populations[str].pop));
+	}
+	else {
     $.ajax({
       type: "GET",
       url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
@@ -63,7 +67,8 @@
       error: function(jqxhr, textStatus, error) {
         callback(null);
       }
-    });
+  });
+}
   };
 
   function numberWithCommas(x) {
