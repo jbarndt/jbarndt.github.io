@@ -17,6 +17,10 @@
   var locations = {};
   var populations = {};
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   ext.getloc = function(str, unit, callback) {
 
     $.ajax({
@@ -44,31 +48,27 @@
     });
   };
 
-  ext.getpop = function(str, callback) {
+  ext.getpop = function(str2, callback) {
 
     $.ajax({
       type: "GET",
-      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      url: "http://nominatim.openstreetmap.org/search.php?q=" + str2 + "&extratags=1",
       dataType: "jsonp",
       data: {
         format: "json"
       },
       jsonp: "json_callback",
       success: function(data) {
-		  populations[str] = {};
-          populations[str].pop = data[0].extratags.population;
-          populations[str].overhead = false;
-	    callback(numberWithCommas(populations[str].pop);
+		  populations[str2] = {};
+          populations[str2].pop = data[0].extratags.population;
+          populations[str2].overhead = false;
+	    callback(numberWithCommas(populations[str2].pop);
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
       }
     });
   };
-
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
   ext._getStatus = function() {
     return { status:2, msg:'Ready' };
