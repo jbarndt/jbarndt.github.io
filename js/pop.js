@@ -93,6 +93,6 @@
     url: 'https://jbarndt.github.io/js/maps.js'
   };
 
-  ScratchExtensions.register('Maps', descriptor, ext);
+  ScratchExtensions.register('Population', descriptor, ext);
 
 })({});
