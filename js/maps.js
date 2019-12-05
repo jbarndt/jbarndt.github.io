@@ -21,20 +21,17 @@
 
     $.ajax({
       type: "GET",
-      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      url: "http://nominatim.openstreetmap.org/search/",
       dataType: "jsonp",
       data: {
-        format: "json"
+        format: "json",
+        q: str
       },
       jsonp: "json_callback",
       success: function(data) {
         locations[str] = {};
         locations[str].coords = [data[0].lon, data[0].lat];
         locations[str].overhead = false;
-
-		populations[str] = {};
-		populations[str].pop = data[0].extratags.population;
-		populations[str].overhead = false;
 
         if (unit === "longitude")
 	      callback(locations[str].coords[0]);
@@ -49,10 +46,6 @@
 
   ext.getpop = function(str, callback) {
 
-	if (populations[str] != null){
-		callback(numberWithCommas(populations[str].pop));
-	}
-	else {
     $.ajax({
       type: "GET",
       url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
@@ -65,13 +58,12 @@
 		  populations[str] = {};
           populations[str].pop = data[0].extratags.population;
           populations[str].overhead = false;
-	    callback(numberWithCommas(populations[str].pop));
+	    callback(numberWithCommas(populations[str].pop);
       },
       error: function(jqxhr, textStatus, error) {
         callback(null);
       }
-  });
-}
+    });
   };
 
   function numberWithCommas(x) {
