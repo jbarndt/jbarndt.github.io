@@ -87,5 +87,6 @@
   };
 
   ScratchExtensions.register('Maps', descriptor, ext);
+  
 
 })({});
