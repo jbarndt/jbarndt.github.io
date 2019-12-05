@@ -90,7 +90,7 @@
     menus: {
       loc: ['longitude', 'latitude'],
     },
-    url: 'https://jbarndt.github.io/js/maps.js'
+    url: 'https://jbarndt.github.io/js/pop.js'
   };
 
   ScratchExtensions.register('Population', descriptor, ext);
