@@ -14,27 +14,61 @@
  */
 (function(ext) {
 
-  function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  var locations = {};
+
+  ext.getloc = function(str, unit, callback) {
+
+    $.ajax({
+      type: "GET",
+      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      dataType: "jsonp",
+      data: {
+        format: "json"
+      },
+      jsonp: "json_callback",
+      success: function(data) {
+        locations[str] = {};
+        locations[str].coords = [data[0].lon, data[0].lat];
+		locations[str].pop = data[0].extratags.population;
+        locations[str].overhead = false;
+
+        if (unit === "longitude")
+	      callback(locations[str].coords[0]);
+	    else if (unit === "latitude")
+		  callback(locations[str].coords[1]);
+      },
+      error: function(jqxhr, textStatus, error) {
+        callback(null);
+      }
+    });
+  };
 
   ext.getpop = function(str, callback) {
 
+	  if (locations.includes(str)){
+		  callback(locations[str].pop);
+	  }
+	 else{
+
     $.ajax({
-  	type: "GET",
-  	url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
-  	dataType: "jsonp",
-  	data: {
-  	  format: "json"
-  	},
-  	jsonp: "json_callback",
-  	success: function(data) {
-  	  console.log(numberWithCommas(data[0].extratags.population));
-  	},
-  	error: function(jqxhr, textStatus, error) {
-  	  callback(null);
-  	}
+      type: "GET",
+      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      dataType: "jsonp",
+      data: {
+        format: "json"
+      },
+      jsonp: "json_callback",
+      success: function(data) {
+		numWithCommas = data[0].extratags.population.toString();
+		numWithCommas.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    callback(numWithCommas);
+      },
+      error: function(jqxhr, textStatus, error) {
+        callback(null);
+      }
     });
+
+	}
   };
 
   ext._getStatus = function() {
@@ -46,13 +80,19 @@
 
   var descriptor = {
     blocks: [
+      //['h', 'when ISS passes over %s', 'whenISSPasses', 'Boston, MA'],
+      //['R', 'distance from %s in %m.measurements', 'distanceFrom', 'Boston, MA', 'kilometers'],
+      //['r', 'current ISS %m.loc', 'getISSInfo', 'longitude']
 
+	  ['R', 'location of %s in %m.loc', 'getloc', 'Boston, MA', 'longitude'],
 	  ['R', 'population of %s', 'getpop', 'Boston, MA']
     ],
-
-    url: 'https://jbarndt.github.io/js/pop.js'
+    menus: {
+      loc: ['longitude', 'latitude'],
+    },
+    url: 'https://jbarndt.github.io/js/maps.js'
   };
 
-  ScratchExtensions.register('Population', descriptor, ext);
+  ScratchExtensions.register('Maps', descriptor, ext);
 
 })({});
