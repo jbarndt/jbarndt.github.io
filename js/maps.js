@@ -81,7 +81,7 @@
 	  ['R', 'population of %s', 'getpop', 'Boston, MA']
     ],
     menus: {
-      loc: ['longitude', 'latitude'],
+      loc: ['longitude', 'latitude']
     },
     url: 'https://jbarndt.github.io/js/maps.js'
   };
