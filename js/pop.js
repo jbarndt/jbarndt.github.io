@@ -20,16 +20,16 @@
 
     $.ajax({
       type: "GET",
-      url: "http://nominatim.openstreetmap.org/search.php?q=" + str + "&extratags=1",
+      url: "http://nominatim.openstreetmap.org/search/",
       dataType: "jsonp",
       data: {
-        format: "json"
+        format: "json",
+        q: str
       },
       jsonp: "json_callback",
       success: function(data) {
         locations[str] = {};
         locations[str].coords = [data[0].lon, data[0].lat];
-		locations[str].pop = data[0].extratags.population;
         locations[str].overhead = false;
 
         if (unit === "longitude")
@@ -44,11 +44,6 @@
   };
 
   ext.getpop = function(str, callback) {
-
-	  if (locations.includes(str)){
-		  callback(locations[str].pop);
-	  }
-	 else{
 
     $.ajax({
       type: "GET",
@@ -67,8 +62,6 @@
         callback(null);
       }
     });
-
-	}
   };
 
   ext._getStatus = function() {
@@ -90,9 +83,9 @@
     menus: {
       loc: ['longitude', 'latitude'],
     },
-    url: 'https://jbarndt.github.io/js/pop.js'
+    url: 'https://jbarndt.github.io/js/maps.js'
   };
 
-  ScratchExtensions.register('Population', descriptor, ext);
+  ScratchExtensions.register('Maps', descriptor, ext);
 
 })({});
